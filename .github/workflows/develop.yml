@@ -1,0 +1,24 @@
+name: Perform checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-and-lint:
+    name: Run linters, check build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+      - name: Set Node version
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Run linters
+        run: yarn lint
+      - name: Verify Build
+        run: yarn build
